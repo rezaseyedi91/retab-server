@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int        @id @default(autoincrement())
+  name     String
+  username String     @unique
+  password String?
+  email    String?
+  docs     RetabDoc[]
+}
+
+model Instrument {
+  id    Int        @id @default(autoincrement())
+  title String  @unique @default("Lute")
+  staves  StaffInfo[]
+}
+
+model RetabDoc {
+  id             Int          @id @default(autoincrement())
+  title          String
+  user           User         @relation(references: [id], fields: [userId], onDelete: Cascade, onUpdate: Cascade)
+  userId         Int
+  mainChild      MeiTag?      @relation(fields: [mainChildId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mainChildId    Int?         @unique
+  lastModifiedAt DateTime     @default(now())
+  stavesInfo     StaffInfo[]
+  filename       String
+  createdAt      DateTime     @default(now())
+}
+
+model StaffInfo {
+  id         Int      @id @default(autoincrement())
+  docId      Int
+  doc        RetabDoc @relation(fields: [docId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  n          Int
+  linesCount Int?
+  notationType    String //    notationType: `tab.lute.${TabType}`
+  tuning     TabCourseTuningInfo[]
+  instrument    Instrument? @relation(fields: [instrumentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  instrumentId        Int?
+  @@unique([docId, n])
+}
+
+
+
+model TabCourseTuningInfo {
+  id          Int     @id @default(autoincrement())
+  n           Int
+  pname       String
+  oct         Int
+  staves      StaffInfo[]
+  @@unique([n, pname, oct])
+}
+model MeiTag {
+  id          Int     @id @default(autoincrement())
+  tagTitle    String  @default("")
+  selfClosing Boolean @default(false)
+
+  textContent String?
+  xmlId       String
+  attributes  MeiAttribute[]
+
+  indexAmongSiblings Int       @default(0)
+  parentId           Int?
+  children           MeiTag[]  @relation(name: "MeiTagChildParent")
+  parent             MeiTag?   @relation(fields: [parentId], references: [id], name: "MeiTagChildParent", onDelete: Cascade, onUpdate: Cascade)
+  doc                RetabDoc?
+  docId              Int?
+}
+
+model MeiAttribute {
+  id             Int     @id @default(autoincrement())
+  title          String
+  value          String?
+  containerTag   MeiTag  @relation(fields: [containerTagId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  containerTagId Int
+}
