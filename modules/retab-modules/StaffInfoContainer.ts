@@ -113,8 +113,16 @@ export default class StaffInfoContainer implements TStaffInfo {
                     connect: { id: docId || 0 }
                 },
                 tuning: {
-                    connectOrCreate: this.tuning.map(t => ({ where: { n_pname_oct: t }, create: t })),
-                    
+                    connectOrCreate: this.tuning.map(t => ({
+                        where: {
+                            n_pname_oct: {
+                                n: t.n, pname: t.pname, oct: t.oct
+                            }
+                        }, 
+                        create: {
+                            n: t.n!, pname: t.pname!, oct: t.oct!
+                        }, 
+                    }))
                 }
             },
             select: {

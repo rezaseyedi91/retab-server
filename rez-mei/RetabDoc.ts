@@ -135,7 +135,7 @@ export default class RetabDoc implements TRetabDoc {
         const user = await RetabUser.getUser();
         const savedInfo = await this.initializeFileInDb({
             userId: user.id,
-            title: this.title,
+            title: this.title, 
             id: this.id,
         })
         this.id = savedInfo.id
@@ -144,6 +144,7 @@ export default class RetabDoc implements TRetabDoc {
 
     }
     async saveStavesInfo() {
+        console.log('saving staves info: ', this.stavesInfo)
         if (!this.id) throw new Error('RetabDoc Must be savedFirst')
         const saveResults = await Promise.all(this.stavesInfo.map(si => si.save(this.id!)))
   
