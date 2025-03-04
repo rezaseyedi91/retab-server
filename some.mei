@@ -1,0 +1,131 @@
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="5.1" xml:id="y8h7b0x7s8v9">
+    <meiHead>
+        <fileDesc>
+            <titleStmt>
+                <title type="main"></title>
+                <title type="Alternative"></title>
+                <title type="desc"></title>
+                <title type="subtitle">A Digital Edition</title>
+                <composer>
+                    <persName></persName>
+                </composer>
+                <respStmt>
+                    <persName xml:id="AA" role="encoder" auth="Orcid" auth.uri="https://orcid.org/0009-0004-9844-9662">Ailin Arjmand</persName>
+                    <corpName>
+                        <name>Centre national de la recherche scientifique</name>
+                        <corpName>
+                            <name>RicercarLab</name>
+                            <address>
+                                <street>59 rue Néricault Destouches</street>
+                                <postBox>BP12050</postBox>
+                                <postCode>37020</postCode>
+                                <settlement>Tours</settlement>
+                                <country>France</country>
+                            </address>
+                        </corpName>
+                    </corpName>
+                </respStmt>
+                <funder>
+                    <corpName>Biblissima+</corpName>
+                    <corpName auth="ROR" auth.uri="https://ror.org/03cv31q28">Centre d'études supérieures de la Renaissance</corpName>
+                </funder>
+            </titleStmt>
+            <pubStmt>
+                <availability>© 2024 RicercarLab</availability>
+            </pubStmt>
+            <sourceDesc>
+                <source recordtype="d">
+                    <bibl>
+                        <physLoc>
+                            <repository>
+                                <corpName>Pesaro-Villa Imperiale-Archivio Albani</corpName>
+                            </repository>
+                        </physLoc>
+                        <title type="alternative"></title>
+                        <locus label="folio" from="alternative" to="alternative"></locus>
+                        <biblScope>
+                            <num label="workposition"></num>
+                        </biblScope>
+                    </bibl>
+                </source>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <appInfo>
+                <head>
+                    <persName xml:id="ReSe" role="Developer">Reza Seyedi</persName>
+                    <persName xml:id="AA" role="Collaborator" auth="Orcid" auth.uri="https://orcid.org/0009-0004-9844-9662">Ailin Arjmand</persName>
+                </head>
+                <application isodate="2024-12-3" version="0.1" xml:id="ReTab">
+                    <name>ReTab</name>
+                </application>
+            </appInfo>
+            <projectDesc>
+                <head>RicercarLab research project</head>
+                <p>Tablature Albani-Biblissima+</p>
+            </projectDesc>
+        </encodingDesc>
+        <workList>
+            <work>
+                <title type="main"></title>
+                <composer>
+                    <persName></persName>
+                </composer>
+                <creation>
+                    <date notbefore="1580" notafter="1640" cert="low">1580-1640</date>
+                    <settlement>Pesaro</settlement>
+                    <country>Italy</country>
+                </creation>
+                <classification>
+                    <termList>
+                        <term label="genre"></term>
+                    </termList>
+                </classification>
+                <relationList>
+                    <relation rel="isPartOf" target="Ricercar Id Work (url)"/>
+                </relationList>
+            </work>
+        </workList>
+    </meiHead>
+    <music>
+        <body>
+            <mdiv>
+                <score>
+                    <scoreDef>
+                        <staffGrp>
+                            <staffDef n="1" lines="6" notationtype="tab.lute.italian">
+                                <tuning>
+                                    <course n="1" oct="4" pname="g"/>
+                                    <course n="2" oct="4" pname="d"/>
+                                    <course n="3" oct="3" pname="a"/>
+                                    <course n="4" oct="3" pname="f"/>
+                                    <course n="5" oct="3" pname="d"/>
+                                    <course n="6" oct="2" pname="e"/>
+                                    <course n="7" oct="2" pname="f"/>
+                                    <course n="8" oct="2" pname="e" accid="f"/>
+                                </tuning>
+                            </staffDef>
+                        </staffGrp>
+                    </scoreDef>
+                    <section n="1">
+                        <measure xml:id="p2s0s7a4l5l4" n="1">
+                            <staff xml:id="d0o3p2y8e9d9" n="1">
+                                <layer n="1" xml:id="b8l1o3b7g3c1">
+                                    <tabGrp dur="4">
+                                        <note tab.course="6" tab.fret="3" xml:id="m9u2t1z3d0k8"/>
+                                    </tabGrp>
+                                    <tabGrp dur="4">
+                                        <note tab.course="6" tab.fret="5" xml:id="s7d7x9z3s7r8"/>
+                                    </tabGrp>
+                                    <tabGrp dur="4">
+                                        <note tab.course="6" tab.fret="2" xml:id="j7o3q3b6z9v1"/>
+                                    </tabGrp>
+                                </layer>
+                            </staff>
+                        </measure>
+                    </section>
+                </score>
+            </mdiv>
+        </body>
+    </music>
+</mei>

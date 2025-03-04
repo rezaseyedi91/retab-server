@@ -3,6 +3,7 @@ import { Router } from "express";
 import { getInstance as getVerovioToolkitInstance } from './../../rez-mei/VerovioToolkitInstance'
 import { promises, readFile } from "fs";
 import retabTestRouter from './retab'
+import getMidiRouter from './get-midi'
 import DB from "../../modules/DB";
 const router = Router();
 
@@ -17,7 +18,7 @@ router.get('/dbman', async (req, res) => {
             }
         },
         create: {
-            n: 1,
+            n: 1, 
             pname: 'g',
             oct: 4
         },
@@ -31,8 +32,8 @@ router.get('/dbman', async (req, res) => {
 })
 router.use('/retab', retabTestRouter)
 
-
-
+router.use('/get-midi', getMidiRouter)
+ 
 
 router.get('/render', async (req, res) => {
     try {

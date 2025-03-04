@@ -137,7 +137,7 @@ export default class RetabDoc implements TRetabDoc {
             userId: user.id,
             title: this.title, 
             id: this.id,
-        })
+        }) 
         this.id = savedInfo.id
         await this.saveStavesInfo();
         await this.mainChild?.save(this);

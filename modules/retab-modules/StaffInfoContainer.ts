@@ -31,7 +31,7 @@ export default class StaffInfoContainer implements TStaffInfo {
     }
 
     constructor(info: TStaffInfo) {
-        
+
         this.n = info.n || StaffInfoContainer.DEFAULT_INFO.n
         this.linesCount = info.linesCount || StaffInfoContainer.DEFAULT_INFO.linesCount
         this.notationType = info.notationType || StaffInfoContainer.DEFAULT_INFO.notationType
@@ -46,7 +46,7 @@ export default class StaffInfoContainer implements TStaffInfo {
         el.setAttribute(new MeiAttribute('n', this.n!))
         el.setAttribute(new MeiAttribute('lines', CONSTANT_LINES_COUNT)) //this.linesCount!
         el.setAttribute(new MeiAttribute('notationtype', this.notationType!))
-        
+
         const tuningTag = el.addChildIfNotExists(new MeiTag({
             tagTitle: 'tuning'
         }))
@@ -56,13 +56,14 @@ export default class StaffInfoContainer implements TStaffInfo {
         tuningTag.addChildren(...this.tuning.map(c => {
             const pnameAccidAttributes: MeiAttribute[] = NoteTablature.makeAccidedPnameAttributes(c.pname as AccidedNotePname) //            { title: 'pname', value: c.pname },
             return new MeiTag({
-            tagTitle: 'course', attributes: [
-                { title: 'n', value: c.n + '' },
-                { title: 'oct', value: c.oct + '' },
-                ...pnameAccidAttributes
-            ],
-            selfClosing: true
-        })}))
+                tagTitle: 'course', attributes: [
+                    { title: 'n', value: c.n + '' },
+                    { title: 'oct', value: c.oct + '' },
+                    ...pnameAccidAttributes
+                ],
+                selfClosing: true
+            })
+        }))
 
 
 
@@ -70,40 +71,43 @@ export default class StaffInfoContainer implements TStaffInfo {
 
     async save(docId: number) {
         const exists = await DB.getInstance().staffInfo.findUnique({
-            where: { 
-                
+            where: {
+
                 docId_n: { docId: docId || 0, n: this.n || 1 }
             },
-            select: {id: true}})
+            select: { id: true }
+        })
         if (exists) {
             await DB.getInstance().staffInfo.update({
-                where: {id: exists.id},
+                where: { id: exists.id },
                 data: {
-                    tuning: {set: []}
+                    tuning: { set: [] }
                 }
             });
-    }
+        }
 
         const saved = await DB.getInstance().staffInfo.upsert({
-            where: exists?.id? {id: exists.id} : { docId_n: { docId: docId || 0, n: this.n || 1 }},
+            where: exists?.id ? { id: exists.id } : { docId_n: { docId: docId || 0, n: this.n || 1 } },
             create: {
                 n: this.n!, notationType: this.notationType!,
                 doc: {
                     connect: { id: docId || 0 },
 
                 },
-                instrument: {connectOrCreate: {where: {title: 'Lute'}, create: {title: 'Lute'}}},
+                instrument: { connectOrCreate: { where: { title: 'Lute' }, create: { title: 'Lute' } } },
                 tuning: {
-                    connectOrCreate: this.tuning.map(t => ({
+                    connectOrCreate: this.tuning.map(t => {
+                        if (t.oct) t.oct = Number(t.oct)
+                        return {
                         where: {
                             n_pname_oct: {
                                 n: t.n, pname: t.pname, oct: t.oct
                             }
-                        }, 
+                        },
                         create: {
                             n: t.n!, pname: t.pname!, oct: t.oct!
-                        }, 
-                    }))
+                        },
+                    }})
                 }
 
             },
@@ -113,20 +117,23 @@ export default class StaffInfoContainer implements TStaffInfo {
                     connect: { id: docId || 0 }
                 },
                 tuning: {
-                    connectOrCreate: this.tuning.map(t => ({
-                        where: {
-                            n_pname_oct: {
-                                n: t.n, pname: t.pname, oct: t.oct
-                            }
-                        }, 
-                        create: {
-                            n: t.n!, pname: t.pname!, oct: t.oct!
-                        }, 
-                    }))
+                    connectOrCreate: this.tuning.map(t => {
+                        if (t.oct) t.oct = Number(t.oct)
+                        return {
+                            where: {
+                                n_pname_oct: {
+                                    n: t.n, pname: t.pname, oct: t.oct
+                                }
+                            },
+                            create: {
+                                n: t.n!, pname: t.pname!, oct: t.oct!
+                            },
+                        }
+                    })
                 }
             },
             select: {
-                id: true, tuning: {select: {id: true}}
+                id: true, tuning: { select: { id: true } }
             }
         })
 
