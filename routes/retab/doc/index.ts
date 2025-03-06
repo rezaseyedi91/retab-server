@@ -8,9 +8,15 @@ import StaffInfoContainer from "../../../modules/retab-modules/StaffInfoContaine
 const router = Router();
 
 router.get('/get-all-saved', async (req, res) => {
+    const page = Number(req.query.page)
+    const perPage = Number(req.query.size || 20);
+    const contains = req.query.search  as string || ""
     const user = await RetabUser.getUser();
-    const list = await user.getSavedDocsList();
-    return res.json(list)
+    const {docsList, totalPages} = await user.getSavedDocsList(page, perPage, contains);
+    return res.json({
+        docsList, totalPages
+
+    })
 })
 router.get('/:id', async (req, res) => {
     const docId = Number(req.params.id || 0)
