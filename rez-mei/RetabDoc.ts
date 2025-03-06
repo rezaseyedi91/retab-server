@@ -1,6 +1,6 @@
 import { writeFileSync } from "fs";
 import DB from "../modules/DB";
-import { TMeiTag, TRetabDoc, TTabCourseTuningInfo, TUser } from "../modules/db-types";
+import { TDocSettings, TMeiTag, TRetabDoc, TTabCourseTuningInfo, TUser } from "../modules/db-types";
 import MeiMainTag from "../modules/mei-tags/MeiMainTag";
 import { MeiTag } from "../modules/mei-tags";
 import Section from "../modules/mei-tags/Section";
@@ -11,6 +11,7 @@ import TabIdeaDocGenerator from "./TabIdeaDocGenerator";
 
 
 export default class RetabDoc implements TRetabDoc {
+    settings?: TDocSettings;
     id?: number | undefined;
     lastModifiedAt?: string | Date | undefined;
     mainChildId?: number | undefined;
@@ -43,23 +44,32 @@ export default class RetabDoc implements TRetabDoc {
     getStaffInfo(n = 1) {
         return this.stavesInfo.find(si => si.n) || this.stavesInfo[n - 1]
     }
-
+    setStavesInfo(stavesInfo: StaffInfoContainer[]) {
+        console.log(stavesInfo)
+        // let sic = this.getStaffInfoContainer(staffN);
+        for (const staffInfo of stavesInfo) {
+            const staffN = staffInfo.n || 1
+            
+            const staffDefMeiTag = this.mainChild?.getStaffDefMeiTag(staffN)!;
+            const sic = this.setTuning(staffInfo.tuning, staffInfo.n)
+            sic.adjustStaffDef(staffDefMeiTag)
+            if (this.settings?.proportionInclude) sic.appendProport(staffDefMeiTag, this.settings.proportionNum!, this.settings.proportionNumbase!)
+        }
+    }
     setTuning(coursesInfo: TTabCourseTuningInfo[], staffN = 1) {
         let sic = this.getStaffInfoContainer(staffN);
         if (sic) sic.setTuning(coursesInfo)
-        else {  
+        else {
             sic = new StaffInfoContainer({
                 linesCount: coursesInfo.length,
                 notationType: StaffInfoContainer.DEFAULT_INFO.notationType,
                 tuning: StaffInfoContainer.DEFAULT_TUNING,
-            }); 
+            });
             this.stavesInfo.push(sic)
         }
-
-        const staffDefMeiTag = this.mainChild?.getStaffDefMeiTag(staffN)!;
-
-        sic.adjustStaffDef(staffDefMeiTag)
-
+        return sic
+      
+        
     }
 
     getStaffInfoContainer(n = 1) { return this.stavesInfo.find(sic => sic.n == n); }
@@ -78,7 +88,8 @@ export default class RetabDoc implements TRetabDoc {
                         include: {
                             tuning: true
                         }
-                    }
+                    },
+                    settings: true
                 }
             });
             const instance = new RetabDoc();
@@ -100,7 +111,8 @@ export default class RetabDoc implements TRetabDoc {
             tuning: this.stavesInfo?.map((si: any) => si.tuning)?.[0],
             sectionJsonElem: this.getSection()?.toJsonElem(),
             headJsonElem: this.getHead()?.toJsonElem(),
-            stavesInfo: this.stavesInfo
+            stavesInfo: this.stavesInfo,
+            settings: this.settings
         }
     }
 
@@ -120,7 +132,7 @@ export default class RetabDoc implements TRetabDoc {
         this.user = info.user
         this.createdAt = info.createdAt
         this.filename = info.filename
-
+        this.settings = info.settings
         this.userId = info.userId;
         return this;
     }
@@ -135,10 +147,12 @@ export default class RetabDoc implements TRetabDoc {
         const user = await RetabUser.getUser();
         const savedInfo = await this.initializeFileInDb({
             userId: user.id,
-            title: this.title, 
+            title: this.title,
             id: this.id,
-        }) 
+            settings: this.settings
+        })
         this.id = savedInfo.id
+
         await this.saveStavesInfo();
         await this.mainChild?.save(this);
 
@@ -150,18 +164,40 @@ export default class RetabDoc implements TRetabDoc {
 
     generateFilename(title: string) { return `${title || 'unknownTitle'}-${this.user?.name}-${Date.now()}.mei` }
     async initializeFileInDb(payload: TRetabDoc) {
+        const settingsData = {
+            defaultFirstTabgrpDurSymShow: this.settings?.defaultFirstTabgrpDurSymShow,
+            proportionInclude: this.settings?.proportionInclude,
+            proportionNum: this.settings?.proportionNum,
+            proportionNumbase: this.settings?.proportionNumbase,
+            tabgroupsIncludeDurAttribute: this.settings?.tabgroupsIncludeDurAttribute,
+
+        }
         const saved = await DB.getInstance().retabDoc.upsert({
             where: { id: this.id || 0 },
             create: {
                 title: payload.title || '',
                 user: { connect: { id: payload.userId } },
                 filename: this.generateFilename(payload.title || 'unknown-title'),
+                settings: {
+                    connectOrCreate: {
+                        where: {docId: this.id || 0},
+                        create: settingsData
+                    }
+                }
 
             },
             update: {
                 lastModifiedAt: new Date(),
                 title: payload.title || '',
                 filename: this.generateFilename(payload.title || 'unknown-title'),
+                settings: {
+                    upsert: {
+                        where: {
+                            docId: this.id || 0
+                        },
+                        create:settingsData, update:settingsData
+                    }
+                }
             }
         })
         return saved
@@ -179,6 +215,20 @@ export default class RetabDoc implements TRetabDoc {
             where: { id: this.id },
         })
     }
+    assignDocSettings(docStetings: {
+        defaultFirstTabgrpDurSymShow: boolean,
+        proportion: { include: boolean, num: number, numbase: number }
+        tabgroupsIncludeDurAttribute: boolean
+    }) {
+        this.settings = {
+            defaultFirstTabgrpDurSymShow: docStetings.defaultFirstTabgrpDurSymShow,
+            proportionInclude: docStetings.proportion.include,
+            proportionNum: docStetings.proportion.num,
+            proportionNumbase: docStetings.proportion.numbase,
+            tabgroupsIncludeDurAttribute: docStetings.tabgroupsIncludeDurAttribute,
+            docId: this.id || undefined
+        }
+    }
 }
 
 
@@ -189,4 +239,7 @@ function includeChildrenRecursively(n = 1): any {
     else return {
         include: { children: { ...includeChildrenRecursively(n + 1), orderBy: { indexAmongSiblings: 'asc' } }, attributes: true }
     }
+
+
+
 }

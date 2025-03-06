@@ -25,6 +25,7 @@ export type TRetabDoc = {
         lastModifiedAt?: Date | string
         filename?: string
         createdAt?: Date | string
+        settings?: TDocSettings
 }
 
 export type TStaffInfo = {
@@ -78,4 +79,13 @@ export type TMeiAttribute = {
 //     }
     
     
-    
+      export type TDocSettings = {
+          doc?: TRetabDoc
+          id?: number
+          docId?: number
+          defaultFirstTabgrpDurSymShow?: boolean
+          tabgroupsIncludeDurAttribute?: boolean
+          proportionInclude?: boolean
+          proportionNum?: number | null
+          proportionNumbase?: number | null
+      }

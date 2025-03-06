@@ -39,8 +39,19 @@ model RetabDoc {
   stavesInfo     StaffInfo[]
   filename       String
   createdAt      DateTime     @default(now())
+  settings      DocSettings?
 }
+model DocSettings {
+  id         Int      @id @default(autoincrement())
+  doc   RetabDoc @relation(fields: [docId], references: [id])
+  docId Int @unique
+  defaultFirstTabgrpDurSymShow Boolean  @default(true)
+  tabgroupsIncludeDurAttribute Boolean  @default(true)
+  proportionInclude Boolean  @default(false)
+  proportionNum Int? @default(2)
+  proportionNumbase Int? @default(2)
 
+}
 model StaffInfo {
   id         Int      @id @default(autoincrement())
   docId      Int

@@ -1,5 +1,5 @@
 import DB from "../DB";
-import { TInstrument, TRetabDoc, TStaffInfo, TTabCourseTuningInfo } from "../db-types";
+import { TDocSettings, TInstrument, TRetabDoc, TStaffInfo, TTabCourseTuningInfo } from "../db-types";
 import { MeiAttribute } from "../interfaces";
 import { MeiTag } from "../mei-tags";
 import NoteTablature, { AccidedNotePname } from "../NoteTablature";
@@ -41,7 +41,7 @@ export default class StaffInfoContainer implements TStaffInfo {
     setTuning(coursesInfo: TTabCourseTuningInfo[]) {
         this.tuning = coursesInfo.sort((a, b) => a.n! - b.n!);
     }
-    adjustStaffDef(el: MeiTag) {
+    adjustStaffDef(el: MeiTag ) {
         const CONSTANT_LINES_COUNT = 6
         el.setAttribute(new MeiAttribute('n', this.n!))
         el.setAttribute(new MeiAttribute('lines', CONSTANT_LINES_COUNT)) //this.linesCount!
@@ -67,6 +67,19 @@ export default class StaffInfoContainer implements TStaffInfo {
 
 
 
+    }
+
+    appendProport(el: MeiTag, num = 2, numbase = 2) {
+        console.log('wanna prepend proportion')
+        const proport = new MeiTag({
+            tagTitle: 'proport', 
+            selfClosing: true,
+            attributes: [
+                new MeiAttribute('num', num),
+                new MeiAttribute('numbase', numbase),
+            ]
+        })
+        el.children.unshift(proport);
     }
 
     async save(docId: number) {

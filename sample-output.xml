@@ -1,0 +1,177 @@
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="5.1" xml:id="y0p0a5j3p6k8">
+    <meiHead>
+        <fileDesc>
+            <titleStmt>
+                <title type="main">Corente f.[rancese?]</title>
+                <title type="Alternative">I-PESvi 5-34_17</title>
+                <title type="desc"></title>
+                <title type="subtitle">A Digital Edition</title>
+                <composer>
+                    <persName>Anon</persName>
+                </composer>
+                <respStmt>
+                    <persName xml:id="AA" role="encoder" auth="Orcid" auth.uri="https://orcid.org/0009-0004-9844-9662">Ailin Arjmand</persName>
+                    <corpName>
+                        <name>Centre national de la recherche scientifique</name>
+                        <corpName>
+                            <name>RicercarLab</name>
+                            <address>
+                                <street>59 rue Néricault Destouches</street>
+                                <postBox>BP12050</postBox>
+                                <postCode>37020</postCode>
+                                <settlement>Tours</settlement>
+                                <country>France</country>
+                            </address>
+                        </corpName>
+                    </corpName>
+                </respStmt>
+                <funder>
+                    <corpName>Biblissima+</corpName>
+                    <corpName auth="ROR" auth.uri="https://ror.org/03cv31q28">Centre d'études supérieures de la Renaissance</corpName>
+                </funder>
+            </titleStmt>
+            <pubStmt>
+                <availability>© 2024 RicercarLab</availability>
+            </pubStmt>
+            <sourceDesc>
+                <source recordtype="d">
+                    <bibl>
+                        <physLoc>
+                            <repository>
+                                <corpName>Pesaro-Villa Imperiale-Archivio Albani</corpName>
+                            </repository>
+                        </physLoc>
+                        <title type="alternative">Corente f.[rancese?]</title>
+                        <locus label="folio" from="11r" to="11r">11r</locus>
+                        <biblScope>
+                            <num label="workposition">17</num>
+                        </biblScope>
+                    </bibl>
+                </source>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <appInfo>
+                <head>
+                    <persName xml:id="ReSe" role="Developer">Reza Seyedi</persName>
+                    <persName xml:id="AA" role="Collaborator" auth="Orcid" auth.uri="https://orcid.org/0009-0004-9844-9662">Ailin Arjmand</persName>
+                </head>
+                <application isodate="2024-12-3" version="0.1" xml:id="ReTab">
+                    <name>ReTab</name>
+                </application>
+            </appInfo>
+            <projectDesc>
+                <head>RicercarLab research project</head>
+                <p>Tablature Albani-Biblissima+</p>
+            </projectDesc>
+        </encodingDesc>
+        <workList>
+            <work>
+                <title type="main">Corente f.[rancese?]</title>
+                <composer>
+                    <persName>Anon</persName>
+                </composer>
+                <creation>
+                    <date notbefore="1580" notafter="1640" cert="low">1580-1640</date>
+                    <settlement>Pesaro</settlement>
+                    <country>Italy</country>
+                </creation>
+                <classification>
+                    <termList>
+                        <term label="genre"></term>
+                    </termList>
+                </classification>
+                <relationList>
+                    <relation rel="isPartOf" target="Ricercar Id Work (url)"/>
+                </relationList>
+            </work>
+        </workList>
+    </meiHead>
+    <music>
+        <body>
+            <mdiv>
+                <score>
+                    <scoreDef>
+                        <staffGrp>
+                            <staffDef n="1" lines="6" notationtype="tab.lute.italian">
+                                <tuning>
+                                    <course n="1" oct="4" pname="g"/>
+                                    <course n="2" oct="4" pname="d"/>
+                                    <course n="3" oct="3" pname="a"/>
+                                    <course n="4" oct="3" pname="f"/>
+                                    <course n="5" oct="3" pname="c"/>
+                                    <course n="6" oct="2" pname="g"/>
+                                    <course n="7" oct="2" pname="f"/>
+                                    <course n="8" oct="2" pname="e"/>
+                                    <course n="9" oct="2" pname="d"/>
+                                    <course n="10" oct="2" pname="c"/>
+                                </tuning>
+                            </staffDef>
+                        </staffGrp>
+                    </scoreDef>
+                    <section n="1">
+                        <measure xml:id="g6c7q0q8y9s3" n="1">
+                            <staff n="1">
+                                <layer n="1" xml:id="k0f6o1c0d5a7">
+                                    <tabGrp dur="4">
+                                        <tabDurSym/>
+                                        <note tab.course="4" tab.fret="2" xml:id="g0j4f7t2p6z2"/>
+                                    </tabGrp>
+                                    <tabGrp dur="4">
+                                        <note tab.course="3" tab.fret="3" xml:id="c5l8w9t8v6n9"/>
+                                    </tabGrp>
+                                    <tabGrp dur="4">
+                                        <note tab.course="2" tab.fret="0" xml:id="v3a6l6j0q1j3"/>
+                                    </tabGrp>
+                                    <tabGrp dots="1" dur="4">
+                                        <tabDurSym/>
+                                        <note tab.course="5" tab.fret="0" xml:id="b5m8z9f3f0m4"/>
+                                        <note tab.course="3" tab.fret="3" xml:id="e4x1s3h7z6l4"/>
+                                        <note tab.course="2" tab.fret="1" xml:id="j2k7i9p4a5s0"/>
+                                        <note tab.course="1" tab.fret="0" xml:id="r8k2d9f0s1x7"/>
+                                    </tabGrp>
+                                    <tabGrp dur="8">
+                                        <tabDurSym/>
+                                        <note tab.course="2" tab.fret="3" xml:id="m6t5g9p2f3o0"/>
+                                    </tabGrp>
+                                    <tabGrp dur="4">
+                                        <tabDurSym/>
+                                        <note tab.course="2" tab.fret="1" xml:id="k8d4j2t1z1u6"/>
+                                    </tabGrp>
+                                    <tabGrp dots="1" dur="4">
+                                        <tabDurSym/>
+                                        <note tab.course="7" tab.fret="0" xml:id="o8j0l3z3f6m1"/>
+                                        <note tab.course="2" tab.fret="0" xml:id="y2h6a9i5g4d0"/>
+                                    </tabGrp>
+                                    <tabGrp dur="8">
+                                        <tabDurSym/>
+                                        <note tab.course="3" tab.fret="3" xml:id="k4m0u2s3e2m9"/>
+                                    </tabGrp>
+                                    <tabGrp dur="4">
+                                        <tabDurSym/>
+                                        <note tab.course="6" tab.fret="0" xml:id="b5f3r3j4g6q9"/>
+                                        <note tab.course="4" tab.fret="2" xml:id="c9n7g6f6n0x7"/>
+                                        <note tab.course="3" tab.fret="2" xml:id="d1f5s6k6v4i6"/>
+                                        <note tab.course="2" tab.fret="0" xml:id="u7m9j1u3s5z5"/>
+                                        <note tab.course="1" tab.fret="0" xml:id="w3b4j0e4g5p4"/>
+                                    </tabGrp>
+                                    <tabGrp dur="2">
+                                        <tabDurSym/>
+                                        <note tab.course="5" tab.fret="0" xml:id="n9t1n5p4g6w8"/>
+                                        <note tab.course="3" tab.fret="3" xml:id="c6p0y7f7o4v2"/>
+                                        <note tab.course="2" tab.fret="2" xml:id="r5l8f5g1g5i6"/>
+                                        <note tab.course="1" tab.fret="0" xml:id="q7a5k2d1w7z0"/>
+                                    </tabGrp>
+                                    <tabGrp dur="8">
+                                        <tabDurSym/>
+                                        <note tab.course="10" tab.fret="0" xml:id="n6n9s4z5z5q1"/>
+                                    </tabGrp>
+                                </layer>
+                            </staff>
+                        </measure>
+                    </section>
+                </score>
+            </mdiv>
+        </body>
+    </music>
+</mei>

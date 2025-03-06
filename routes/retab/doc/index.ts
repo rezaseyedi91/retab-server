@@ -45,14 +45,15 @@ router.delete('/:id', async (req, res) => {
         title: docInfo.title,
         user: user,
     })
-    
+    retabDoc.assignDocSettings(req.body.docSettings)
     retabDoc.initializeMeiMainTag()
+    console.log(retabDoc.settings)
     const section = TabIdeaDocGenerator.jsonElemToSection( req.body.sectionJsonElem);
     retabDoc?.appendSection(section)
     const head = req.body.headJsonElem ? MeiTag.makeTagsTree(req.body.headJsonElem) : undefined;
     if (head) retabDoc?.appendHead(head)
     retabDoc.stavesInfo = docInfo.stavesInfo.map((si: TStaffInfo) => new StaffInfoContainer(si))
-    retabDoc.setTuning(retabDoc.stavesInfo[0].tuning)
+    retabDoc.setStavesInfo(retabDoc.stavesInfo)
     await retabDoc.save();
     return res.json({id: retabDoc.id})
  })
