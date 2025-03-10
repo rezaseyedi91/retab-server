@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
             }
         }
 
-    })
+    }) 
     res.json(result);
     // res.json(await prisma.retabDoc.deleteMany({
     //     where: {

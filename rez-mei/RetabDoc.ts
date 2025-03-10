@@ -210,7 +210,8 @@ export default class RetabDoc implements TRetabDoc {
     }
 
     async remove() {
-        if (!this.id) throw new Error('ID must be present');
+    
+        if (!this.id) throw new Error('ID must be present; available docId is: ' + this.id );
         return await DB.getInstance().retabDoc.delete({
             where: { id: this.id },
         })
