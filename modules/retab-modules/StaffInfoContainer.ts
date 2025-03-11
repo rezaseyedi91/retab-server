@@ -79,7 +79,16 @@ export default class StaffInfoContainer implements TStaffInfo {
                 new MeiAttribute('numbase', numbase),
             ]
         })
+
         el.children.unshift(proport);
+        // for C and slashed C signs:
+        if (num == 4 && numbase == 4) {
+            el.setAttribute(new MeiAttribute('mensur.sign', "C"))
+        } else if (num == 2 && numbase == 2) {
+            el.setAttribute(new MeiAttribute('mensur.sign', "C"))
+            el.setAttribute(new MeiAttribute('mensur.slash', "1"))
+        }
+
     }
 
     async save(docId: number) {
