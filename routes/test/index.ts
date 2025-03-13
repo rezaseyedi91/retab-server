@@ -9,6 +9,7 @@ import { PrismaClient } from "@prisma/client";
 const router = Router();
 
 router.get('/dbman', async (req, res) => {
+    return res.send('just nothing')
     const prisma = new PrismaClient({
         log: [
             {emit: 'event', 'level': 'query'}
