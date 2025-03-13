@@ -9,15 +9,15 @@ import { PrismaClient } from "@prisma/client";
 const router = Router();
 
 router.get('/dbman', async (req, res) => {
-    return res.send('just nothing')
-    const prisma = new PrismaClient({
-        log: [
-            {emit: 'event', 'level': 'query'}
-        ]
-    })// DB.getInstance();
-    prisma.$on('query', (e) => {
-        console.log(e);
-      });
+    const prisma = DB.getInstance();
+    // const prisma = new PrismaClient({
+    //     log: [
+    //         {emit: 'event', 'level': 'query'}
+    //     ]
+    // })// DB.getInstance();
+    // prisma.$on('query', (e) => {
+    //     console.log(e);
+    //   });
     const result  = await prisma.staffInfo.findMany({
         select: {
             tuning:  true
