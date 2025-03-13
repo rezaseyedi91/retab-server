@@ -23,9 +23,9 @@ model User {
 }
 
 model Instrument {
-  id    Int        @id @default(autoincrement())
-  title String  @unique @default("Lute")
-  staves  StaffInfo[]
+  id     Int         @id @default(autoincrement())
+  title  String      @unique @default("Lute")
+  staves StaffInfo[]
 }
 
 model RetabDoc {
@@ -39,42 +39,54 @@ model RetabDoc {
   stavesInfo     StaffInfo[]
   filename       String
   createdAt      DateTime     @default(now())
-  settings      DocSettings?
+  settings       DocSettings?
 }
+
 model DocSettings {
-  id         Int      @id @default(autoincrement())
-  doc   RetabDoc @relation(fields: [docId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  docId Int @unique
+  id                           Int      @id @default(autoincrement())
+  doc                          RetabDoc @relation(fields: [docId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  docId                        Int      @unique
   defaultFirstTabgrpDurSymShow Boolean  @default(true)
   tabgroupsIncludeDurAttribute Boolean  @default(true)
-  proportionInclude Boolean  @default(false)
-  proportionNum Int? @default(2)
-  proportionNumbase Int? @default(2)
-
+  proportionInclude            Boolean  @default(false)
+  proportionNum                Int?     @default(2)
+  proportionNumbase            Int?     @default(2)
+  proportionSign               String?
+  proportionSlash              Int?
 }
+
 model StaffInfo {
-  id         Int      @id @default(autoincrement())
-  docId      Int
-  doc        RetabDoc @relation(fields: [docId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  n          Int
-  linesCount Int?
-  notationType    String //    notationType: `tab.lute.${TabType}`
-  tuning     TabCourseTuningInfo[]
-  instrument    Instrument? @relation(fields: [instrumentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  instrumentId        Int?
+  id           Int                   @id @default(autoincrement())
+  docId        Int
+  doc          RetabDoc              @relation(fields: [docId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  n            Int
+  linesCount   Int?
+  notationType String //    notationType: `tab.lute.${TabType}`
+  tuning       TabCourseTuningInfo[]
+  instrument   Instrument?           @relation(fields: [instrumentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  instrumentId Int?
+
   @@unique([docId, n])
 }
 
-
-
 model TabCourseTuningInfo {
-  id          Int     @id @default(autoincrement())
-  n           Int
-  pname       String
-  oct         Int
-  staves      StaffInfo[]
+  id      Int            @id @default(autoincrement())
+  n       Int
+  pname   String
+  oct     Int
+  staves  StaffInfo[]
+  presets TuningPreset[]
+
   @@unique([n, pname, oct])
 }
+
+model TuningPreset {
+  id     Int                   @id @default(autoincrement())
+  title  String?
+  tuning TabCourseTuningInfo[]
+  
+}
+
 model MeiTag {
   id          Int     @id @default(autoincrement())
   tagTitle    String  @default("")

@@ -69,8 +69,7 @@ export default class StaffInfoContainer implements TStaffInfo {
 
     }
 
-    appendProport(el: MeiTag, num = 2, numbase = 2) {
-        console.log('wanna prepend proportion')
+    appendProport(el: MeiTag, num = 2, numbase = 2, sign: TDocSettings["proportionSign"], slash: TDocSettings["proportionSlash"]) {
         const proport = new MeiTag({
             tagTitle: 'proport', 
             selfClosing: true,
@@ -82,11 +81,12 @@ export default class StaffInfoContainer implements TStaffInfo {
 
         el.children.unshift(proport);
         // for C and slashed C signs:
-        if (num == 4 && numbase == 4) {
-            el.setAttribute(new MeiAttribute('mensur.sign', "C"))
-        } else if (num == 2 && numbase == 2) {
-            el.setAttribute(new MeiAttribute('mensur.sign', "C"))
-            el.setAttribute(new MeiAttribute('mensur.slash', "1"))
+        if (sign) {
+            el.setAttribute(new MeiAttribute('mensur.sign', sign))
+        } 
+        if (slash) {
+            el.setAttribute(new MeiAttribute('mensur.slash', slash))
+
         }
 
     }

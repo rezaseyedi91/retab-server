@@ -40,7 +40,7 @@ export default class RetabDoc implements TRetabDoc {
         // this.mainChild?.addOrReplaceChild(head);
         this.mainChild?.appendHead(head)
     }
-
+ 
     getStaffInfo(n = 1) {
         return this.stavesInfo.find(si => si.n) || this.stavesInfo[n - 1]
     }
@@ -53,7 +53,12 @@ export default class RetabDoc implements TRetabDoc {
             const staffDefMeiTag = this.mainChild?.getStaffDefMeiTag(staffN)!;
             const sic = this.setTuning(staffInfo.tuning, staffInfo.n)
             sic.adjustStaffDef(staffDefMeiTag)
-            if (this.settings?.proportionInclude) sic.appendProport(staffDefMeiTag, this.settings.proportionNum!, this.settings.proportionNumbase!)
+            
+            if (this.settings?.proportionInclude) sic.appendProport(
+                staffDefMeiTag, 
+                this.settings.proportionNum!, this.settings.proportionNumbase!, 
+                this.settings.proportionSign, this.settings.proportionSlash
+            )
         }
     }
     setTuning(coursesInfo: TTabCourseTuningInfo[], staffN = 1) {
@@ -169,6 +174,8 @@ export default class RetabDoc implements TRetabDoc {
             proportionInclude: this.settings?.proportionInclude,
             proportionNum: this.settings?.proportionNum,
             proportionNumbase: this.settings?.proportionNumbase,
+            proportionSign: this.settings?.proportionSign || null,
+            proportionSlash: Number(this.settings?.proportionSlash || 0) || null,
             tabgroupsIncludeDurAttribute: this.settings?.tabgroupsIncludeDurAttribute,
 
         }
@@ -218,15 +225,19 @@ export default class RetabDoc implements TRetabDoc {
     }
     assignDocSettings(docStetings: {
         defaultFirstTabgrpDurSymShow: boolean,
-        proportion: { include: boolean, num: number, numbase: number }
+        proportion: { include: boolean, num: number, numbase: number, sign?: string, slash?: number }
         tabgroupsIncludeDurAttribute: boolean
     }) {
+        console.log(docStetings.proportion)
         this.settings = {
             defaultFirstTabgrpDurSymShow: docStetings.defaultFirstTabgrpDurSymShow,
             proportionInclude: docStetings.proportion.include,
             proportionNum: docStetings.proportion.num,
             proportionNumbase: docStetings.proportion.numbase,
             tabgroupsIncludeDurAttribute: docStetings.tabgroupsIncludeDurAttribute,
+            proportionSign: docStetings.proportion.sign,
+            proportionSlash: docStetings.proportion.slash,
+
             docId: this.id || undefined
         }
     }

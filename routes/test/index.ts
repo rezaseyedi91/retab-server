@@ -5,30 +5,31 @@ import { promises, readFile } from "fs";
 import retabTestRouter from './retab'
 import getMidiRouter from './get-midi'
 import DB from "../../modules/DB";
+import { PrismaClient } from "@prisma/client";
 const router = Router();
 
 router.get('/dbman', async (req, res) => {
-    const prisma = DB.getInstance();
-    const result = await prisma.tabCourseTuningInfo.upsert({
-        where: {
-            n_pname_oct: {
-                n: 1,
-                pname: 'g',
-                oct: 4
-            }
-        },
-        create: {
-            n: 1, 
-            pname: 'g',
-            oct: 4
-        },
-        update: {
-            n: 1,
-            pname: 'g',
-            oct: 4
+    const prisma = new PrismaClient({
+        log: [
+            {emit: 'event', 'level': 'query'}
+        ]
+    })// DB.getInstance();
+    prisma.$on('query', (e) => {
+        console.log(e);
+      });
+    const result  = await prisma.staffInfo.findMany({
+        select: {
+            tuning:  true
         }
     })
-    return res.json(result)
+
+    console.log(result.length)
+    const set = new Set();
+    result.forEach((t) => set.add( JSON.stringify(t)))
+    const arr = Array.from(set).map(i => JSON.parse(i as string))
+    // console.log(arr)
+
+    return res.json(arr)
 })
 router.use('/retab', retabTestRouter)
 

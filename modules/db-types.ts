@@ -77,15 +77,17 @@ export type TMeiAttribute = {
 //         pname: string,
 //         oct: number
 //     }
-    
-    
-      export type TDocSettings = {
-          doc?: TRetabDoc
-          id?: number
-          docId?: number
-          defaultFirstTabgrpDurSymShow?: boolean
-          tabgroupsIncludeDurAttribute?: boolean
-          proportionInclude?: boolean
-          proportionNum?: number | null
-          proportionNumbase?: number | null
-      }
+
+
+export type TDocSettings = {
+        doc?: TRetabDoc
+        id?: number
+        docId?: number
+        defaultFirstTabgrpDurSymShow?: boolean
+        tabgroupsIncludeDurAttribute?: boolean
+        proportionInclude?: boolean
+        proportionNum?: number | null
+        proportionNumbase?: number | null
+        proportionSign?: string | null
+        proportionSlash?: number | null
+}
